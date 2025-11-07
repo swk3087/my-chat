@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { --radius: 16px; }
+.btn {
+  @apply rounded-2xl px-4 py-2 font-medium transition hover:opacity-90 active:scale-95;
+}
+.card {
+  @apply rounded-2xl shadow-md border border-black/5 bg-white dark:bg-zinc-900 dark:border-white/10;
+}
