@@ -5,7 +5,8 @@ import { auth } from '@/src/lib/auth';
 // Blob client-upload 토큰/콜백 패턴. :contentReference[oaicite:8]{index=8}
 export async function POST(request: Request): Promise<NextResponse> {
   const session = await auth();
-  if (!session?.user?.email) return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
+  const email = session?.user?.email;
+  if (!email) return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
 
   const body = (await request.json()) as HandleUploadBody;
   const jsonResponse = await handleUpload({
@@ -15,7 +16,7 @@ export async function POST(request: Request): Promise<NextResponse> {
       return {
         allowedContentTypes: ['image/jpeg', 'image/png', 'image/webp'],
         addRandomSuffix: true,
-        tokenPayload: JSON.stringify({ email: session.user.email }),
+        tokenPayload: JSON.stringify({ email }),
       };
     },
     onUploadCompleted: async ({ blob, tokenPayload }) => {
